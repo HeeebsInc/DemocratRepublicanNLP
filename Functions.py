@@ -18,7 +18,7 @@ def stacked_model(models):
     stack_m = [] 
     for model, m in models.items(): 
         stack_m.append((model, m))
-    stack_model = StackingClassifier(estimators = stack_m, final_estimator = LogisticRegression(), cv = 3)
+    stack_model = StackingClassifier(estimators = stack_m, final_estimator = LogisticRegression(max_iter = 2500), cv = 3)
     models['Stacked'] = stack_model
     
     return models
