@@ -103,4 +103,12 @@ def preprocess_tts(df, pre_type, ngram, max_features, min_df, max_df):
     print(f'Test:\t{len(x_test)}\n{y_test.Target.value_counts()}\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     y_train = y_train.values.ravel() 
     y_test = y_test.values.ravel()
-    return df, x_train_new, x_test_new, y_train, y_test, preprocessing_dict
+    
+    new_df = pd.DataFrame() 
+    new_df = new_df.append(x_train_new, ignore_index = True)
+    new_df = new_df.append(x_test_new, ignore_index = True) 
+    new_df['Target'] = [i for i in y_train] + [i for i in y_test]
+    
+    pbar.close() 
+    
+    return new_df, x_train_new, x_test_new, y_train, y_test, preprocessing_dict
