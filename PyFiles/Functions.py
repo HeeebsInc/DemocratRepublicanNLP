@@ -33,16 +33,17 @@ def test_models(x_train, y_train, models, n_jobs = 2):
     returns: vanilla_dict (contains results and model names)"""
     results = []
     model_names = []
-    pbar = tqdm(models.items())
+    pbar = tqdm(models.items(), desc = 'Evalutating Models')
     
     for model, m in pbar: 
         pbar.set_description(f'Evaluating {model.upper()}')
-        cv = RepeatedStratifiedKFold(n_splits = 10, n_repeats = 10)
+        cv = RepeatedStratifiedKFold(n_splits = 10, n_repeats = 3)
         scores = cross_val_score(m, x_train, y_train, scoring = 'accuracy', cv = cv, n_jobs = n_jobs, 
                                  error_score = 'raise')
         results.append(scores)
         model_names.append(model)
     vanilla_dict = {i:y for i,y in zip(model_names, results)}
+    pbar.close()
    
     return vanilla_dict
 
